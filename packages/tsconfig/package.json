@@ -1,0 +1,13 @@
+{
+    "name": "tsconfig",
+    "version": "1.0.0",
+    "description": "Typescript config for the complete monorepo",
+    "private": true,
+    "author": "Souveek Bose",
+    "license": "MIT",
+    "packageManager": "pnpm@10.11.0",
+    "devDependencies": {
+        "@tsconfig/node22": "^22.0.2",
+        "@vue/tsconfig": "^0.7.0"
+    }
+}

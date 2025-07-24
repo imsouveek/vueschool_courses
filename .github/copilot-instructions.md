@@ -1,0 +1,2 @@
+- always use script setup and composition API in .vue files. Do NOT use the options API
+- always use Typescript in .vue files and for this project overall

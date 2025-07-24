@@ -1,0 +1,20 @@
+{
+    "name": "vueschool_courses",
+    "version": "1.0.0",
+    "description": "Monorepo of all courses from VueSchool.io",
+    "main": "index.js",
+    "scripts": {
+        "build": "turbo run build",
+        "dev": "turbo run dev",
+        "lint": "turbo run lint",
+        "format": "prettier --write ."
+    },
+    "keywords": [],
+    "author": "Souveek Bose",
+    "license": "MIT",
+    "packageManager": "pnpm@10.11.0",
+    "devDependencies": {
+        "prettier": "3.5.3",
+        "turbo": "^2.5.5"
+    }
+}
