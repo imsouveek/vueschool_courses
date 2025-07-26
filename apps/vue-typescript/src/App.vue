@@ -4,24 +4,32 @@ import EntryEditor from './components/EntryEditor.vue'
 import EntryCard from '@/components/EntryCard.vue'
 import type User from '@/types/User.ts'
 
-import { reactive } from "vue";
+import { provide, ref } from "vue";
+import type Entry from '@/types/Entry';
+import { userInjectionKey } from '@/types/injectionKeys';
 
-const user: User = reactive({
+const user = ref<User>({
     id: 1,
     username: 'sobo123',
     settings: []
 })
+console.log(user.value)
 
-console.log(user)
+const journalEntries = ref<Entry[]>([])
+const handleCreateEntry = (entry: Entry) => {
+    journalEntries.value.unshift(entry)
+}
+
+provide(userInjectionKey, user.value)
 </script>
 
 <template>
     <main class="container m-auto p-10">
         <TheHeader />
-        <EntryEditor />
+        <EntryEditor @create-entry="handleCreateEntry" />
         <ul>
-            <li>
-                <EntryCard />
+            <li v-for="(entry, index) in journalEntries" :key="entry.id">
+                <EntryCard :entry="entry" />
             </li>
         </ul>
     </main>

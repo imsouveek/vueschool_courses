@@ -1,3 +1,4 @@
+import type { Emoji } from '@/types/Emoji'
 import type { Component } from 'vue'
 import { reactive } from 'vue'
 
@@ -15,7 +16,7 @@ export default function UseEmojis() {
     /**
      * Get a single emoji component by name
      */
-    const findEmoji = (name: string) => emojis.find((emoji) => emoji.name === name)?.component
+    const findEmoji = (name: Emoji | null) => emojis.find((emoji) => emoji.name === name)?.component
 
     return { emojis, findEmoji }
 }
