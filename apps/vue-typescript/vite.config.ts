@@ -4,14 +4,14 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import checker from 'vite-plugin-checker'
 import vueDevTools from 'vite-plugin-vue-devtools'
-import VueRouter from 'unplugin-vue-router/vite'
+import svgLoader from 'vite-svg-loader'
 
-// https://vite.dev/config/
+// https://vitejs.dev/config/
 export default defineConfig({
     plugins: [
-        VueRouter(),
         vue(),
         vueDevTools(),
+        svgLoader(),
         checker({
             vueTsc: {
                 buildMode: true

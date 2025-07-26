@@ -2,6 +2,6 @@
 
 <template>
     <main>
-        <RouterView />
+        <router-view />
     </main>
 </template>

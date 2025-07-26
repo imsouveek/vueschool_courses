@@ -10,6 +10,13 @@
             "name": "Masterclass Debug",
             "url": "http://localhost:3000",
             "webRoot": "${workspaceFolder}/apps/masterclass"
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Vue + Typescript Debug",
+            "url": "http://localhost:3001",
+            "webRoot": "${workspaceFolder}/apps/vue-typescript"
         }
     ]
 }
