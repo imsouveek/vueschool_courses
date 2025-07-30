@@ -8,7 +8,7 @@
 
     "initializeCommand": "ssh-add",
 
-    "forwardPorts": [3000, 3001, 3002],
+    "forwardPorts": [3000, 3001, 3002, 3003],
 
     "customizations": {
         "vscode": {
@@ -22,7 +22,8 @@
                 "ms-azuretools.vscode-containers",
                 "Vercel.turbo-vsc",
                 "humao.rest-client",
-                "wenfangdu.snippet-generator"
+                "wenfangdu.snippet-generator",
+                "bradlc.vscode-tailwindcss"
             ]
         }
     }

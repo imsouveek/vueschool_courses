@@ -17,6 +17,20 @@
             "name": "Vue + Typescript Debug",
             "url": "http://localhost:3001",
             "webRoot": "${workspaceFolder}/apps/vue-typescript"
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Vue Router Debug",
+            "url": "http://localhost:3002",
+            "webRoot": "${workspaceFolder}/apps/vue-router"
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Vue + Tailwind Debug",
+            "url": "http://localhost:3003",
+            "webRoot": "${workspaceFolder}/apps/vue-tailwind"
         }
     ]
 }
