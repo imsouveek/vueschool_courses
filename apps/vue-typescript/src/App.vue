@@ -28,7 +28,7 @@ provide(userInjectionKey, user.value)
         <TheHeader />
         <EntryEditor @create-entry="handleCreateEntry" />
         <ul>
-            <li v-for="(entry, index) in journalEntries" :key="entry.id">
+            <li v-for="entry in journalEntries" :key="entry.id">
                 <EntryCard :entry="entry" />
             </li>
         </ul>
