@@ -7,8 +7,14 @@ const destinations = sourceData.destinations
 <template>
     <div id="nav">
         <app-link id="logo" to="/">Vue School Travel App</app-link>
-        <app-link v-for="destination in destinations" :key="destination.id"
-            :to="{ name: 'destination.viewer', params: { id: destination.id, slug: destination.slug } }">
+        <app-link
+            v-for="destination in destinations"
+            :key="destination.id"
+            :to="{
+                name: 'destination.viewer',
+                params: { id: destination.id, slug: destination.slug }
+            }"
+        >
             {{ destination.name }}
         </app-link>
         <app-link :to="{ name: 'dashboard' }">Dashboard</app-link>

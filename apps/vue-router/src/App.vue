@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { RouterView, useRoute } from 'vue-router'
-import { Suspense } from 'vue';
-import TheNavigation from './components/TheNavigation.vue';
+import { Suspense } from 'vue'
+import TheNavigation from './components/TheNavigation.vue'
 
 const route = useRoute()
 </script>

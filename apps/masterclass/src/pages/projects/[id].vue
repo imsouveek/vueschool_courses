@@ -6,7 +6,6 @@ let projectId: string
 if ('id' in route.params) {
     projectId = route.params.id
 }
-
 </script>
 
 <template>

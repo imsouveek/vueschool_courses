@@ -4,9 +4,9 @@ import EntryEditor from './components/EntryEditor.vue'
 import EntryCard from '@/components/EntryCard.vue'
 import type User from '@/types/User.ts'
 
-import { provide, ref } from "vue";
-import type Entry from '@/types/Entry';
-import { userInjectionKey } from '@/types/injectionKeys';
+import { provide, ref } from 'vue'
+import type Entry from '@/types/Entry'
+import { userInjectionKey } from '@/types/injectionKeys'
 
 const user = ref<User>({
     id: 1,

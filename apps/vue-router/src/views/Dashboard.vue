@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import { RouterLink, useRouter } from 'vue-router';
+import { ref } from 'vue'
+import { RouterLink, useRouter } from 'vue-router'
 
 const username = ref<string>((window as any).user as string)
 const router = useRouter()

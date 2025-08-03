@@ -7,7 +7,7 @@ import type Entry from '@/types/Entry'
 import { userInjectionKey } from '@/types/injectionKeys'
 
 // data
-const text = ref("")
+const text = ref('')
 const emoji = ref<Emoji | null>(null)
 const charCount = computed(() => text.value.length)
 const maxChars = 280
@@ -49,12 +49,17 @@ const handleFormSubmit = () => {
 
 <template>
     <form class="entry-form" @submit.prevent="handleFormSubmit">
-        <textarea :value="text" @keyup="handleTextInput" ref="textarea"
-            :placeholder="`New Journal Entry for ${user?.username || 'anonymous'}`"></textarea>
+        <textarea
+            :value="text"
+            @keyup="handleTextInput"
+            ref="textarea"
+            :placeholder="`New Journal Entry for ${user?.username || 'anonymous'}`"
+        ></textarea>
         <EmojiField v-model="emoji" />
         <div class="entry-form-footer">
             <span> {{ charCount }} / {{ maxChars }}</span>
-            <button>Remember
+            <button>
+                Remember
                 <ArrowCircleRight width="20" />
             </button>
         </div>
