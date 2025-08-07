@@ -31,6 +31,20 @@
             "name": "Vue + Tailwind Debug",
             "url": "http://localhost:3003",
             "webRoot": "${workspaceFolder}/apps/vue-tailwind"
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Vue Error Handling Debug",
+            "url": "http://localhost:3004",
+            "webRoot": "${workspaceFolder}/apps/vue-error-handling"
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Vue Composables",
+            "url": "http://localhost:3005",
+            "webRoot": "${workspaceFolder}/packages/vue-composables"
         }
     ]
 }
