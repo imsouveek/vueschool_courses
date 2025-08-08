@@ -9,7 +9,7 @@ const router = useRouter()
 const route = useRoute()
 
 const login = () => {
-    ; (window as any).user = username.value
+    ;(window as any).user = username.value
     const redirectPath = route.query.redirect || '/dashboard'
     router.push(redirectPath as string)
 }

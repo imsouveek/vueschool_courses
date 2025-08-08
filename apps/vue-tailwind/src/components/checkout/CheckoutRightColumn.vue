@@ -12,13 +12,18 @@ import CheckoutForm from '@/components/checkout/CheckoutForm.vue'
         <checkout-form />
         <div class="flex flex-row justify-end pr-24 pt-16">
             <button
-                class="uppercase font-bold flex flex-row items-center gap-4 cursor-pointer relative group text-white">
+                class="uppercase font-bold flex flex-row items-center gap-4 cursor-pointer relative group text-white"
+            >
                 Continue
-                <span class="block h-[1px] w-8 bg-green-600 group-hover:w-6 transition-all origin-right "></span>
                 <span
-                    class="absolute right-0 w-3 h-[1px] bg-green-600 group-hover:rotate-45 transition-all origin-right"></span>
+                    class="block h-[1px] w-8 bg-green-600 group-hover:w-6 transition-all origin-right"
+                ></span>
                 <span
-                    class="absolute right-0 w-3 h-[1px] bg-green-600 group-hover:rotate-[-45deg] transition-all origin-right"></span>
+                    class="absolute right-0 w-3 h-[1px] bg-green-600 group-hover:rotate-45 transition-all origin-right"
+                ></span>
+                <span
+                    class="absolute right-0 w-3 h-[1px] bg-green-600 group-hover:rotate-[-45deg] transition-all origin-right"
+                ></span>
             </button>
         </div>
     </div>

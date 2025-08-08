@@ -35,8 +35,7 @@ export default function createVueEslintConfig(options: createVueEslintConfigOpti
             files: ['**/*.{ts,mts,tsx,vue}'],
             languageOptions: {
                 parserOptions: {
-                    tsconfigRootDir,
-                    project: ['./tsconfig.json', './tsconfig.*.json']
+                    tsconfigRootDir
                 }
             }
         }
