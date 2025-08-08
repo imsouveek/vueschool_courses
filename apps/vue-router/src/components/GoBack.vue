@@ -1,5 +1,9 @@
 <script setup lang="ts">
-import router from '@/router'
+import { useRouter } from 'vue-router';
+
+// import router from '@/router'
+
+const router = useRouter()
 </script>
 
 <template>

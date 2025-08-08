@@ -10,7 +10,7 @@ const textInput = ref('')
 <template>
     <div class="m-10">
         <app-card class="mb-4" />
-        <app-input label="Username" v-model="textInput" />
+        <app-input label="Username" :required="true" v-model="textInput" />
         <app-button>Submit</app-button>
         {{ textInput }}
     </div>

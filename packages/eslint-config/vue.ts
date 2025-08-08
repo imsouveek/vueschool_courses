@@ -3,22 +3,42 @@ import { defineConfigWithVueTs, vueTsConfigs } from '@vue/eslint-config-typescri
 import pluginVue from 'eslint-plugin-vue'
 import skipFormatting from '@vue/eslint-config-prettier/skip-formatting'
 
-// To allow more languages other than `ts` in `.vue` files, uncomment the following lines:
-// import { configureVueProject } from '@vue/eslint-config-typescript'
-// configureVueProject({ scriptLangs: ['ts', 'tsx'] })
-// More info at https://github.com/vuejs/eslint-config-typescript/#advanced-setup
+/**
+ * Creates a complete ESLint configuration for Vue projects.
+ * @param {object} options
+ * @param {string} options.tsconfigRootDir The root directory for the tsconfig.json file.
+ */
 
-export default defineConfigWithVueTs(
-    {
-        name: 'app/files-to-lint',
-        files: ['**/*.{ts,mts,tsx,vue}']
-    },
+export interface createVueEslintConfigOptions {
+    tsconfigRootDir: string
+}
 
-    globalIgnores(['**/dist/**', '**/dist-ssr/**', '**/coverage/**']),
+export default function createVueEslintConfig(options: createVueEslintConfigOptions) {
+    const { tsconfigRootDir } = options
 
-    pluginVue.configs['flat/essential'],
-    vueTsConfigs.recommended,
-    skipFormatting,
+    const baseConfig = defineConfigWithVueTs(
+        {
+            name: 'app/files-to-lint',
+            files: ['**/*.{ts,mts,tsx,vue}']
+        },
+        globalIgnores(['**/dist/**', '**/dist-ssr/**', '**/coverage/**']),
+        pluginVue.configs['flat/essential'],
+        vueTsConfigs.recommended,
+        skipFormatting,
+        { rules: { 'vue/multi-word-component-names': 0 } }
+    )
 
-    { rules: { 'vue/multi-word-component-names': 0 } }
-)
+    return [
+        ...baseConfig,
+        {
+            // This new object is where we dynamically add the tsconfigRootDir
+            files: ['**/*.{ts,mts,tsx,vue}'],
+            languageOptions: {
+                parserOptions: {
+                    tsconfigRootDir,
+                    project: ['./tsconfig.json', './tsconfig.*.json']
+                }
+            }
+        }
+    ]
+}
