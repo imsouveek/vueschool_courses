@@ -35,7 +35,7 @@
         {
             "type": "chrome",
             "request": "launch",
-            "name": "Vue Error Handling Debug",
+            "name": "Unplugin Vue Router",
             "url": "http://localhost:3004",
             "webRoot": "${workspaceFolder}/apps/vue-error-handling"
         },

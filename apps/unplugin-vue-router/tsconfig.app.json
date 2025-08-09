@@ -1,0 +1,11 @@
+{
+    "extends": "tsconfig/vue.json",
+    "include": ["env.d.ts", "src/**/*", "src/**/*.vue", "typed-router.d.ts"],
+    "exclude": ["src/**/__tests__/*"],
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "@/*": ["./src/*"]
+        }
+    }
+}
