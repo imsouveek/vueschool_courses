@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { useCycleList } from 'vue-composables'
 import { ref } from 'vue'
-import AppButton from '@/components/AppButton.vue'
-import AppInput from '@/components/AppInput.vue'
+import AppButton from '@/components/base/AppButton.vue'
+import AppInput from '@/components/base/AppInput.vue'
+import AppHeading from '@/components/base/AppHeading.vue'
 
 const list = ref([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
 const { state, index, prev, next } = useCycleList(list, {
@@ -40,22 +41,21 @@ const goNext = () => {
 
 <template>
     <div class="max-w-4xl mx-auto">
-        <h1 class="font-extralight text-2xl">Composables</h1>
-        <hr class="bg-gray-400 my-2 h-[2px]" />
-        <div class="my-8">
-            <span
+        <app-heading>Composables</app-heading>
+        <div class="my-8 grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-10">
+            <div
                 v-for="(i, idx) in list"
                 :key="idx"
                 :class="[
-                    'my-8 mx-4 py-2 px-4 text-2xl text-green-800 dark:text-white',
+                    'my-8 mx-4 py-2 px-4 w-10 h-10',
                     {
-                        'rounded-full font-bold border-[1px] bg-green-400 dark:bg-green-600 text-green-800 dark:text-white border-green-800 dark:border-white':
+                        'rounded-full font-bold border-[1px] bg-amber-400 dark:bg-amber-600':
                             idx === index
                     }
                 ]"
             >
-                {{ i }}</span
-            >
+                {{ i }}
+            </div>
         </div>
         <app-input label="Number" v-model="steps" />
         <div class="py-8">

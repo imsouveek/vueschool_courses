@@ -70,13 +70,6 @@ mediaQuery.onchange = (event) => {
                         >Checkout</router-link
                     >
                 </li>
-                <li>
-                    <router-link
-                        :to="{ name: 'composables' }"
-                        class="text-slate-400 hover:bg-slate-700 hover:text-slate-50 py-1 px-4 rounded-md block"
-                        >Composables</router-link
-                    >
-                </li>
             </ul>
         </div>
 

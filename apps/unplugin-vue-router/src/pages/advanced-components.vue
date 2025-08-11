@@ -3,6 +3,7 @@ import ClickCounter from '@/components/ClickCounter.vue'
 import ErrorBoundary from '@/components/ErrorBoundary.vue'
 import ErrorComponent from '@/components/ErrorComponent.vue'
 import AppButton from '@/components/base/AppButton.vue'
+import AppHeading from '@/components/base/AppHeading.vue'
 import AppModal from '@/components/base/AppModal.vue'
 
 import { useTemplateRef } from 'vue'
@@ -11,8 +12,9 @@ const modalRef = useTemplateRef('modal')
 
 <template>
     <div>
+        <app-heading>Advanced Components</app-heading>
         <div>
-            <h1 class="text-4xl mt-4 mb-8">Define Expose</h1>
+            <h1 class="text-xl mt-4 mb-8">Define Expose</h1>
             <app-button @click="modalRef?.open">External Open</app-button>
             <app-modal ref="modal">
                 <h2 class="text-2xl pb-8">Hello</h2>
@@ -30,17 +32,17 @@ const modalRef = useTemplateRef('modal')
             </app-modal>
         </div>
         <div>
-            <h1 class="text-4xl mt-4 mb-8">Default Slot</h1>
+            <h1 class="text-xl mt-4 mb-8">Default Slot</h1>
             <click-counter #default="{ increment }">
                 <app-button @click="increment">Click Me!</app-button>
             </click-counter>
         </div>
         <div>
-            <h1 class="text-4xl mt-4 mb-8">Error Boundary</h1>
+            <h1 class="text-xl mt-4 mb-8">Error Boundary</h1>
             <error-boundary>
                 <error-component />
                 <template #error="{ error, clearError }">
-                    <div class="bg-slate-900 p-8 rounded-xl">
+                    <div class="p-8 rounded-xl border-dashed border-[2px] border-amber-900">
                         <p class="pb-4">{{ error }}</p>
                         <app-button @click="clearError">Clear Error</app-button>
                     </div>

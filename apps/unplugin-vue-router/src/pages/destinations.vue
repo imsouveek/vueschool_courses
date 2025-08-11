@@ -3,5 +3,8 @@ import AppHeading from '@/components/base/AppHeading.vue'
 </script>
 
 <template>
-    <app-heading>Not Nested</app-heading>
+    <div>
+        <app-heading>Destinations</app-heading>
+        <router-view />
+    </div>
 </template>

@@ -14,10 +14,11 @@ defineExpose({
 <template>
     <div v-show="isOpen">
         <div
-            class="absolute left-[50%] top-[50%] translate-y-[-50%] translate-x-[-50%] w-dvw h-dvh bg-slate-400 opacity-50"
+            class="absolute left-[50%] top-[50%] translate-y-[-50%] translate-x-[-50%] w-dvw h-dvh bg-amber-950 dark:bg-amber-50 opacity-50"
+            @click="close"
         ></div>
         <div
-            class="absolute left-[50%] top-[50%] translate-y-[-50%] translate-x-[-50%] bg-white w-11/12 md:w-3xl min-h-1/12 rounded-xl opacity-100 p-8 text-slate-800"
+            class="absolute left-[50%] top-[50%] translate-y-[-50%] translate-x-[-50%] bg-amber-50 dark:bg-amber-950 w-11/12 md:w-3xl min-h-1/12 rounded-xl opacity-100 p-8"
         >
             <slot></slot>
             <app-button class="absolute left-[50%] bottom-12 translate-x-[-50%]" @click="close">

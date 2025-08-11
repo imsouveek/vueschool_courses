@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import AppHeading from '@/components/base/AppHeading.vue'
 definePage({
     alias: ['/me'],
     meta: {
@@ -8,5 +9,7 @@ definePage({
 </script>
 
 <template>
-    <div class="text-4xl">ABOUT</div>
+    <div>
+        <app-heading>About</app-heading>
+    </div>
 </template>

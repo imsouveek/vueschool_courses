@@ -1,5 +1,7 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import AppHeading from '@/components/base/AppHeading.vue'
+</script>
 
 <template>
-    <div class="text-4xl">HOME</div>
+    <app-heading>Home</app-heading>
 </template>
