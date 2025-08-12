@@ -3,18 +3,32 @@
     "version": "0.0.0",
     "private": true,
     "type": "module",
-    "engines": {
-        "node": "^20.19.0 || >=22.12.0"
+    "files": [
+        "dist"
+    ],
+    "main": "./dist/vue-tooltip.umd.cjs",
+    "module": "./dist/vue-tooltip.js",
+    "types": "./dist/types.d.ts",
+    "exports": {
+        ".": {
+            "types": "./dist/types.d.ts",
+            "import": "./dist/vue-tooltip.js",
+            "require": "./dist/vue-tooltip.umd.cjs"
+        },
+        "./style.css": "./dist/vue-plugins.css"
     },
     "scripts": {
         "dev": "vite --host 0.0.0.0 --port 3005",
-        "build": "run-p type-check \"build-only {@}\" --",
+        "build": "run-p type-check \"build-only {@}\" -- && run-p generate:types",
+        "generate:types": "vue-tsc -p tsconfig.app.json",
         "preview": "vite preview",
         "build-only": "vite build",
         "type-check": "vue-tsc --build",
         "lint": "eslint . --fix"
     },
     "dependencies": {
+        "defu": "^6.1.4",
+        "tippy.js": "^6.3.7",
         "vue": "^3.5.18"
     },
     "devDependencies": {

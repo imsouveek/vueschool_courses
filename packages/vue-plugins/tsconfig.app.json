@@ -1,8 +1,10 @@
 {
     "extends": "tsconfig/vue.json",
-    "include": ["env.d.ts", "src/**/*", "src/**/*.vue"],
+    "include": ["env.d.ts", "src/TooltipPlugin/*", "src/TooltipPlugin/*.vue"],
     "exclude": ["src/**/__tests__/*"],
     "compilerOptions": {
+        "noEmit": false,
+        "outDir": "./dist",
         "baseUrl": ".",
         "paths": {
             "@/*": ["./src/*"]

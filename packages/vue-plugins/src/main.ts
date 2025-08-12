@@ -1,5 +1,14 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-import { TooltipPlugin } from './TooltipPlugin'
+import { createToolTip } from './TooltipPlugin'
 
-createApp(App).use(TooltipPlugin, { option: 'TEST' }).mount('#app')
+createApp(App)
+    .use(
+        createToolTip({
+            placement: 'right',
+            arrow: false,
+            trigger: 'click',
+            hideOnClick: false
+        })
+    )
+    .mount('#app')
