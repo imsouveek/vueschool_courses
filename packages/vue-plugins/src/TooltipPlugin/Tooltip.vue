@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import tippy, { type Instance, type Props } from 'tippy.js';
-import 'tippy.js/dist/tippy.css';
-import { inject, onMounted, onUnmounted, onUpdated, useTemplateRef, type ShallowRef } from 'vue';
-import { tooltipOptionsInject } from '.';
+import tippy, { type Instance, type Props } from 'tippy.js'
+import 'tippy.js/dist/tippy.css'
+import { inject, onMounted, onUnmounted, onUpdated, useTemplateRef, type ShallowRef } from 'vue'
+import { tooltipOptionsInject } from '.'
 
 const tooltip = useTemplateRef('tooltip') as ShallowRef<HTMLElement>
 const props = defineProps<{
-    text: string,
+    text: string
     options?: Partial<Props>
 }>()
 
