@@ -35,16 +35,23 @@
         {
             "type": "chrome",
             "request": "launch",
-            "name": "Unplugin Vue Router",
+            "name": "Unplugin Vue Router Debug",
             "url": "http://localhost:3004",
-            "webRoot": "${workspaceFolder}/apps/vue-error-handling"
+            "webRoot": "${workspaceFolder}/apps/unplugin-vue-router"
         },
         {
             "type": "chrome",
             "request": "launch",
-            "name": "Vue Composables",
+            "name": "Vue Composables Debug",
             "url": "http://localhost:3005",
             "webRoot": "${workspaceFolder}/packages/vue-composables"
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Vue Plugins Debug",
+            "url": "http://localhost:3006",
+            "webRoot": "${workspaceFolder}/packages/vue-plugins"
         }
     ]
 }

@@ -26,8 +26,11 @@ mediaQuery.onchange = (event) => {
 
 <template>
     <div
-        class="relative p-2 sm:p-8 sm:h-full flex flex-col sm:justify-center border-b-[1px] sm:border-r-[1px] border-amber-900">
-        <nav-menu-header @toggle-menu="isMobileMenuActive = !isMobileMenuActive">Playground</nav-menu-header>
+        class="relative p-2 sm:p-8 sm:h-full flex flex-col sm:justify-center border-b-[1px] sm:border-r-[1px] border-amber-900"
+    >
+        <nav-menu-header @toggle-menu="isMobileMenuActive = !isMobileMenuActive"
+            >Playground</nav-menu-header
+        >
         <nav-menu-body v-model="isMobileMenuActive" :isSmallScreen="isSmallScreen">
             <app-toggle v-model="isDark">Dark Mode</app-toggle>
             <app-link to="/" @click="closeMenu"> Home </app-link>
