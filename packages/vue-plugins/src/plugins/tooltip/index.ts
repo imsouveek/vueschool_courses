@@ -4,7 +4,9 @@ import { hideAll, type Props } from 'tippy.js'
 
 export const tooltipOptionsInject = Symbol()
 
-export function createToolTip(options: Partial<Props>) {
+export type TooltipPluginProps = Partial<Props>
+
+export function createToolTip(options: TooltipPluginProps) {
     return (app: App) => {
         options = defu(options, {
             arrow: true
@@ -15,7 +17,7 @@ export function createToolTip(options: Partial<Props>) {
         app.provide(tooltipOptionsInject, options)
         app.component(
             'Tooltip',
-            defineAsyncComponent(() => import('@/TooltipPlugin/Tooltip.vue'))
+            defineAsyncComponent(() => import('@/plugins/tooltip/Tooltip.vue'))
         )
     }
 }

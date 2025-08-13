@@ -1,5 +1,5 @@
 import type { HideAll } from 'tippy.js'
-import type Tooltip from './Tooltip.vue'
+import type Tooltip from '@/plugins/tooltip/Tooltip.vue'
 export * from './index'
 
 declare module 'vue' {
@@ -10,5 +10,3 @@ declare module 'vue' {
         Tooltip: typeof Tooltip
     }
 }
-
-export {}

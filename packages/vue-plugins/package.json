@@ -6,14 +6,14 @@
     "files": [
         "dist"
     ],
-    "main": "./dist/vue-tooltip.umd.cjs",
-    "module": "./dist/vue-tooltip.js",
-    "types": "./dist/types.d.ts",
+    "main": "./dist/vue-plugins.umd.cjs",
+    "module": "./dist/vue-plugins.js",
+    "types": "./dist/index.d.ts",
     "exports": {
         ".": {
-            "types": "./dist/types.d.ts",
-            "import": "./dist/vue-tooltip.js",
-            "require": "./dist/vue-tooltip.umd.cjs"
+            "types": "./dist/index.d.ts",
+            "import": "./dist/vue-plugins.js",
+            "require": "./dist/vue-plugins.umd.cjs"
         },
         "./style.css": "./dist/vue-plugins.css"
     },

@@ -10,7 +10,7 @@ const app = createApp(App)
 app.use(DataLoaderPlugin, { router })
 app.use(
     createToolTip({
-        placement: 'right'
+        arrow: true
     })
 )
 app.use(router)
