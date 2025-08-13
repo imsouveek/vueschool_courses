@@ -1,10 +1,9 @@
 import { defineAsyncComponent, type App } from 'vue'
 import defu from 'defu'
-import { hideAll, type Props } from 'tippy.js'
+import { hideAll } from 'tippy.js'
+import type { TooltipPluginProps } from './types'
 
 export const tooltipOptionsInject = Symbol()
-
-export type TooltipPluginProps = Partial<Props>
 
 export function createToolTip(options: TooltipPluginProps) {
     return (app: App) => {

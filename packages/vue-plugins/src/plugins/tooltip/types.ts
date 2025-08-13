@@ -1,6 +1,8 @@
-import type { HideAll } from 'tippy.js'
-import type Tooltip from '@/plugins/tooltip/Tooltip.vue'
-export * from './index'
+import type { HideAll, Props } from 'tippy.js'
+import type Tooltip from './Tooltip.vue'
+export * from '../index'
+
+export type TooltipPluginProps = Partial<Props>
 
 declare module 'vue' {
     interface ComponentCustomProperties {
@@ -10,3 +12,5 @@ declare module 'vue' {
         Tooltip: typeof Tooltip
     }
 }
+
+export {}

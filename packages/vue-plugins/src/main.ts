@@ -1,6 +1,6 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-import { createToolTip } from '@/plugins/tooltip/index'
+import { createToolTip } from '@/plugins'
 
 createApp(App)
     .use(
