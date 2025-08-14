@@ -1,10 +1,5 @@
 import { computed, ref, toRef, toValue, type MaybeRef, type MaybeRefOrGetter, type Ref } from 'vue'
-
-export interface useCycleListOptions<T> {
-    initialValue?: MaybeRef<T>
-    fallbackIndex?: number
-    getIndexOf?: (value: T, list: T[]) => number
-}
+import type { useCycleListOptions } from './types'
 
 export const useCycleList = <T>(list: MaybeRefOrGetter<T[]>, config?: useCycleListOptions<T>) => {
     const useCycleListDefaults = {

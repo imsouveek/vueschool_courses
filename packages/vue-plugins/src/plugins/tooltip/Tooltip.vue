@@ -1,35 +1,47 @@
 <script setup lang="ts">
-import tippy, { type Instance, type Props } from 'tippy.js'
+import tippy, { type Instance } from 'tippy.js'
 import 'tippy.js/dist/tippy.css'
-import { inject, onMounted, onUnmounted, onUpdated, useTemplateRef, type ShallowRef } from 'vue'
+import { inject, onMounted, onUnmounted, watch, unref, ref } from 'vue'
 import { tooltipOptionsInject } from '.'
+import type { TooltipPluginProps } from './types'
 
-const tooltip = useTemplateRef('tooltip') as ShallowRef<HTMLElement>
+const tooltip = ref<HTMLElement>()
 const props = defineProps<{
     text: string
-    options?: Partial<Props>
+    options?: TooltipPluginProps
 }>()
 
+const globalOptions = inject<TooltipPluginProps>(tooltipOptionsInject, {})
 let tippyInstance: Instance | null = null
 
 const initTippy = () => {
-    if (tippyInstance) {
-        tippyInstance.destroy()
-    }
-    tippyInstance = tippy(tooltip.value?.parentNode as HTMLElement, {
-        ...inject(tooltipOptionsInject),
-        content: props.text,
-        ...props.options
-    })
-}
-onMounted(initTippy)
-onUpdated(initTippy)
+    const target = unref(tooltip.value?.parentElement)
+    if (!target) return
 
-onUnmounted(() => {
+    const content = String(props.text)
     if (tippyInstance) {
-        tippyInstance.destroy()
+        tippyInstance.setProps({
+            content,
+            ...props.options
+        })
+    } else {
+        tippyInstance = tippy(target, {
+            ...globalOptions,
+            content,
+            ...props.options
+        })
     }
-})
+}
+
+onMounted(initTippy)
+
+watch(
+    () => [props.text, props.options],
+    () => initTippy(),
+    { deep: true }
+)
+
+onUnmounted(() => tippyInstance?.destroy())
 </script>
 
 <template>

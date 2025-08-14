@@ -21,7 +21,7 @@ const tooltipText = ref('Hello World')
                         placement: 'top',
                         hideOnClick: false,
                         trigger: 'click',
-                        arrow: 'false'
+                        arrow: false
                     }"
                 />
             </span>

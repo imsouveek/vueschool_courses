@@ -1,6 +1,6 @@
 {
     "extends": "tsconfig/vue-lib.json",
-    "include": ["env.d.ts", "src/plugins/**/*", "src/plugins/**/*.vue"],
+    "include": ["env.d.ts", "src/composables/**/*", "src/composables/**/*.vue"],
     "exclude": ["src/**/__tests__/*", "src/main.ts", "src/App.vue"],
     "compilerOptions": {
         "noEmit": false,
