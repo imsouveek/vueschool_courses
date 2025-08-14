@@ -52,6 +52,13 @@
             "name": "Vue Plugins Debug",
             "url": "http://localhost:3006",
             "webRoot": "${workspaceFolder}/packages/vue-plugins"
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Vue Trello Board",
+            "url": "http://localhost:3007",
+            "webRoot": "${workspaceFolder}/apps/vue-trello-board"
         }
     ]
 }

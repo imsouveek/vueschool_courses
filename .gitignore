@@ -13,6 +13,8 @@ dist
 dist-ssr
 coverage
 *.local
+.fleet
+.idea
 
 /cypress/videos/
 /cypress/screenshots/
@@ -20,3 +22,16 @@ coverage
 *.tsbuildinfo
 .pnpm-store
 .turbo
+
+# Nuxt dev/build outputs
+.output
+.data
+.nuxt
+.nitro
+.cache
+dist
+
+# Local env files
+.env
+.env.*
+!.env.example
