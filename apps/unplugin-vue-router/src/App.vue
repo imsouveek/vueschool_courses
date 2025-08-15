@@ -2,6 +2,12 @@
 import { RouterView } from 'vue-router'
 import GoBack from './components/GoBack.vue'
 import NavMenu from '@/components/navMenu/index.vue'
+import { provide } from 'vue'
+import { DarkModeInjectionKey } from '@/types/DarkModeInjectionKey'
+import { useDark } from '@vueuse/core'
+
+const isDark = useDark()
+provide(DarkModeInjectionKey, isDark)
 </script>
 
 <template>

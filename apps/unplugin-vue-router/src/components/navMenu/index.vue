@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { useDark } from '@vueuse/core'
 import AppToggle from '@/components/base/AppToggle.vue'
 import AppLink from '@/components/base/AppLink.vue'
-import { ref } from 'vue'
+import { inject, ref } from 'vue'
 import NavMenuHeader from '@/components/navMenu/NavMenuHeader.vue'
 import NavMenuBody from '@/components/navMenu/NavMenuBody.vue'
+import { DarkModeInjectionKey } from '@/types/DarkModeInjectionKey'
 
-const isDark = useDark()
+const isDark = inject(DarkModeInjectionKey)
 const isMobileMenuActive = ref(false)
 const closeMenu = () => (isMobileMenuActive.value = false)
 
@@ -26,11 +26,8 @@ mediaQuery.onchange = (event) => {
 
 <template>
     <div
-        class="relative p-2 sm:p-8 sm:h-full flex flex-col sm:justify-center border-b-[1px] sm:border-r-[1px] border-amber-900"
-    >
-        <nav-menu-header @toggle-menu="isMobileMenuActive = !isMobileMenuActive"
-            >Playground</nav-menu-header
-        >
+        class="relative p-2 sm:p-8 sm:h-full flex flex-col sm:justify-center border-b-[1px] sm:border-r-[1px] border-amber-900">
+        <nav-menu-header @toggle-menu="isMobileMenuActive = !isMobileMenuActive">Playground</nav-menu-header>
         <nav-menu-body v-model="isMobileMenuActive" :isSmallScreen="isSmallScreen">
             <app-toggle v-model="isDark">Dark Mode</app-toggle>
             <app-link to="/" @click="closeMenu"> Home </app-link>
