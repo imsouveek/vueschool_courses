@@ -51,9 +51,3 @@ const modalRef = useTemplateRef('modal')
         </div>
     </div>
 </template>
-
-<style scoped>
-.green {
-    color: green;
-}
-</style>
