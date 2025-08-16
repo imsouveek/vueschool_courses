@@ -59,6 +59,13 @@
             "name": "Vue Trello Board",
             "url": "http://localhost:3007",
             "webRoot": "${workspaceFolder}/apps/vue-trello-board"
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Vue File Uploads",
+            "url": "http://localhost:3008",
+            "webRoot": "${workspaceFolder}/apps/vue-file-uploads"
         }
     ]
 }
