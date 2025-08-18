@@ -1,19 +1,15 @@
 import { fileURLToPath, URL } from 'node:url'
 
-import { defineConfig, PluginOption } from 'vite'
-import tailwindcss from '@tailwindcss/vite'
-import VueRouter from 'unplugin-vue-router/vite'
-import checker from 'vite-plugin-checker'
+import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import checker from 'vite-plugin-checker'
 import vueDevTools from 'vite-plugin-vue-devtools'
 
 // https://vite.dev/config/
 export default defineConfig({
     plugins: [
-        VueRouter() as PluginOption,
         vue(),
         vueDevTools(),
-        tailwindcss(),
         checker({
             vueTsc: {
                 buildMode: true

@@ -66,6 +66,13 @@
             "name": "Vue File Uploads",
             "url": "http://localhost:3008",
             "webRoot": "${workspaceFolder}/apps/vue-file-uploads"
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Vue Wordle",
+            "url": "http://localhost:3009",
+            "webRoot": "${workspaceFolder}/apps/vue-wordle"
         }
     ]
 }
