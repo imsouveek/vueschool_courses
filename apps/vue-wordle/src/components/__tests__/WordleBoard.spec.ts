@@ -61,6 +61,16 @@ describe('WordleBoard', () => {
     })
 
     describe('Player Input', () => {
+        test('Input should remain in focus the entire time', async () => {
+            document.body.innerHTML = '<div id="app"></div>'
+            wrapper = mount(WordleBoard, { props: { wordOfTheDay }, attachTo: '#app' })
+
+            expect(wrapper.find('input[type=text]').attributes('autofocus')).not.toBeUndefined()
+
+            await wrapper.find('input[type=text]').trigger('blur')
+
+            expect(document.activeElement).toBe(wrapper.find('input[type=text]').element)
+        })
         test(`Player guesses are limited to $WORD_SIZE letters`, async () => {
             await playerSubmitsGuess(wordOfTheDay + 'EXTRA')
 
@@ -87,5 +97,11 @@ describe('WordleBoard', () => {
                 'HRT'
             )
         })
+    })
+
+    test('Non-alphabet characters do not render on screen when typed', async () => {
+        await playerSubmitsGuess('333')
+
+        expect(wrapper.find<HTMLInputElement>('input[type=text]').element.value).toEqual('')
     })
 })
