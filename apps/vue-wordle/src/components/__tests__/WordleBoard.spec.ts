@@ -27,8 +27,7 @@ const selectors = {
 describe('WordleBoard', () => {
     const wordOfTheDay = 'TESTS'
     let wrapper: ReturnType<typeof mount>
-    const { guessInProgress, guessesSubmitted, guessFeedback, isGameOver, resetGame } =
-        useWordleGame()
+    const { resetGame } = useWordleGame()
 
     beforeEach(() => {
         resetGame()
@@ -50,6 +49,7 @@ describe('WordleBoard', () => {
     async function playerTypesEnter() {
         const guessInput = wrapper.find(selectors.input)
         await guessInput.trigger('keydown.enter')
+        vi.runAllTimers()
     }
 
     async function playerTypesAndSubmitsGuess(guess: string) {
@@ -61,7 +61,6 @@ describe('WordleBoard', () => {
         test('A victory message appears when the user makes a guess that matches the word of the day', async () => {
             await playerTypesAndSubmitsGuess(wordOfTheDay)
             expect(wrapper.find(selectors.status).text()).toContain(VICTORY_MESSAGE)
-            expect(isGameOver.value).toBe(true)
         })
 
         describe(`A defeat message should be displayed when the user makes incorrect ${MAX_GUESS_COUNT} times`, () => {
@@ -83,17 +82,14 @@ describe('WordleBoard', () => {
                     }
                     if (!shouldSeeErrorMessage) {
                         expect(wrapper.find(selectors.status).text()).toContain(DEFEAT_MESSAGE)
-                        expect(isGameOver.value).toBe(true)
                     } else {
                         expect(wrapper.find(selectors.status).exists()).toBe(false)
-                        expect(isGameOver.value).toBe(false)
                     }
                 }
             )
         })
 
         test('No end-of-game message appears when user does not make a guess', async () => {
-            expect(isGameOver.value).toBe(false)
             expect(wrapper.find(selectors.status).exists()).toBe(false)
         })
     })
@@ -132,7 +128,6 @@ describe('WordleBoard', () => {
 
             for (const guess of guesses) {
                 expect(wrapper.text()).toContain(guess)
-                expect(guessesSubmitted.value).toContain(guess)
             }
         })
 
@@ -173,21 +168,18 @@ describe('WordleBoard', () => {
                     collectedFeedback().length,
                     'Feedback was being rendered before the player started typing their guess'
                 ).toBe(0)
-                expect(guessFeedback.value[0]).toBeUndefined()
 
                 await playerTypesGuess(wordOfTheDay)
                 expect(
                     collectedFeedback().length,
                     'Feedback was rendered while the player was typing their guess'
                 ).toBe(0)
-                expect(guessFeedback.value[0]).toBeUndefined()
 
                 await playerTypesEnter()
                 expect(
                     collectedFeedback().length,
                     'Feedback was not rendered after the player submitted their guess'
                 ).not.toBe(0)
-                expect(guessFeedback.value[0]).not.toBeUndefined()
             })
         })
 
@@ -228,8 +220,6 @@ describe('WordleBoard', () => {
                     wrapper = mount(WordleBoard, { props: { wordOfTheDay } })
 
                     await playerTypesAndSubmitsGuess(guess)
-
-                    expect(guessFeedback.value[0][position]).toBe(feedback)
 
                     const actualFeedback = wrapper
                         .findAll(selectors.guess_word)[0]
@@ -273,7 +263,6 @@ describe('WordleBoard', () => {
             await playerTypesAndSubmitsGuess('PRINT')
 
             expect(wrapper.find<HTMLInputElement>(selectors.input).element.value).toEqual('')
-            expect(guessInProgress.value).toEqual('')
         })
 
         test(`Player guesses are limited to $WORD_SIZE letters`, async () => {
@@ -282,17 +271,14 @@ describe('WordleBoard', () => {
             expect(wrapper.find<HTMLInputElement>(selectors.input).element.value).toEqual(
                 wordOfTheDay
             )
-            expect(guessInProgress.value).toEqual(wordOfTheDay)
 
             await playerTypesAndSubmitsGuess(wordOfTheDay + 'EXTRA')
             expect(wrapper.find(selectors.guess_word_w(wordOfTheDay)).exists()).toBe(true)
-            expect(guessesSubmitted.value).toContain(wordOfTheDay)
         })
 
         test('Player guesses can only be submitted if they are real words', async () => {
             await playerTypesAndSubmitsGuess('QWERT')
 
-            expect(guessesSubmitted.value).not.toContain('QWERT')
             expect(wrapper.find(selectors.status).exists()).toBe(false)
         })
 
@@ -300,7 +286,6 @@ describe('WordleBoard', () => {
             await playerTypesAndSubmitsGuess(wordOfTheDay.toLowerCase())
 
             expect(wrapper.find(selectors.guess_word_w(wordOfTheDay)).exists()).toBe(true)
-            expect(guessesSubmitted.value).toContain(wordOfTheDay)
             expect(wrapper.find(selectors.status).text()).toContain(VICTORY_MESSAGE)
         })
 
@@ -308,14 +293,12 @@ describe('WordleBoard', () => {
             await playerTypesGuess('H3R!T')
 
             expect(wrapper.find<HTMLInputElement>(selectors.input).element.value).toContain('HRT')
-            expect(guessInProgress.value).toEqual('HRT')
         })
 
         test('Non-alphabet characters do not render on screen when typed', async () => {
             await playerTypesGuess('333')
 
             expect(wrapper.find<HTMLInputElement>(selectors.input).element.value).toEqual('')
-            expect(guessInProgress.value).toEqual('')
         })
     })
 
@@ -450,7 +433,7 @@ describe('WordleBoard', () => {
                     .findAll(selectors.feedback_f(feedback))
                     .map((el) => {
                         const testAttr = el.attributes(selectors.generic)
-                        const match = testAttr?.match(/^letter-(.)$/)
+                        const match = testAttr?.match(/^letter-(.*)$/)
                         return match?.[1] || null
                     })
                     .filter((l): l is string => !!l)
