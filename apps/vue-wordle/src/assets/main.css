@@ -24,27 +24,15 @@
         }
     }
 
-    --animate-frontface-flip: frontface-flip 0.3s ease-in-out;
-    @keyframes frontface-flip {
+    @keyframes simple-flip {
         0% {
             transform: rotateY(0deg);
         }
+
         50% {
             transform: rotateY(-90deg);
         }
-        100% {
-            transform: rotateY(-180deg);
-        }
-    }
 
-    --animate-backface-flip: backface-flip 0.3s ease-in-out;
-    @keyframes backface-flip {
-        0% {
-            transform: rotateY(180deg);
-        }
-        50% {
-            transform: rotateY(90deg);
-        }
         100% {
             transform: rotateY(0deg);
         }

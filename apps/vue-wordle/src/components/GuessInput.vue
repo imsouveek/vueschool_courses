@@ -1,43 +1,22 @@
 <script setup lang="ts">
 import { WORD_SIZE } from '@/settings'
-import englishWords from '@/englishWordsWith5Letters.json'
-import { ref } from 'vue'
 import GuessView from './GuessView.vue';
+import { useWordleGame } from '@/composables/useWordleGame';
 
-const emit = defineEmits<{
-    'guess-submitted': [guess: string]
-}>()
+const { guessInProgress, invalidWordError, processInput, handleSubmit } = useWordleGame()
 
-const guessInProgress = ref('')
-const errorAnimation = ref(false)
-
-const handleInput = (event: Event): void => {
+const onInput = (event: Event): void => {
     const target = event.target as HTMLInputElement
-    guessInProgress.value = target.value
-        .substring(0, WORD_SIZE)
-        .toUpperCase()
-        .replace(/[^A-Z]+/gi, '')
+    processInput(target.value)
     target.value = guessInProgress.value
-}
-
-
-const onSubmit = async () => {
-    if (!englishWords.includes(guessInProgress.value)) {
-        errorAnimation.value = true
-        await new Promise((resolve) => setTimeout(resolve, 300))
-        errorAnimation.value = false
-        return
-    }
-    emit('guess-submitted', guessInProgress.value)
-    guessInProgress.value = ''
 }
 </script>
 
 <template>
-    <div class="flex" :class="{ 'animate-shake': errorAnimation }">
-        <input type="text" v-model="guessInProgress" autofocus @keydown.enter="onSubmit"
-            @blur="({ target }) => (target as HTMLInputElement).focus()" maxlength="5" @input="handleInput"
+    <div class="flex" :class="{ 'animate-shake': invalidWordError }">
+        <input type="text" v-model="guessInProgress" autofocus @keydown.enter="handleSubmit"
+            @blur="({ target }) => (target as HTMLInputElement).focus()" :maxlength="WORD_SIZE" @input="onInput"
             class="opacity-0 cursor-default w-0" />
-        <guess-view :guess="guessInProgress" animate />
+        <guess-view :guess="guessInProgress" />
     </div>
 </template>
