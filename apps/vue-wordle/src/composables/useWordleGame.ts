@@ -7,7 +7,7 @@ const invalidWordError = ref(false)
 const guessesSubmitted = ref<string[]>([])
 const guessFeedback = ref<Feedback[][]>([])
 const wordOfTheDay = ref('')
-const letterFeedback = ref<Feedback[][]>([])
+const letterFeedback = ref<Map<string, Feedback>>(new Map<string, Feedback>())
 
 export const useWordleGame = () => {
     const isGameOver = computed(() => {
@@ -30,7 +30,7 @@ export const useWordleGame = () => {
         guessesSubmitted.value = []
         wordOfTheDay.value = ''
         guessFeedback.value = []
-        letterFeedback.value = []
+        letterFeedback.value = new Map<string, Feedback>()
     }
 
     const setWordOfTheDay = (word: string) => (wordOfTheDay.value = word)
@@ -46,7 +46,6 @@ export const useWordleGame = () => {
 
         guessesSubmitted.value.push(guessInProgress.value)
         updateGuessFeedback()
-        // updateLetterFeedback()
         guessInProgress.value = ''
     }
 
@@ -54,19 +53,29 @@ export const useWordleGame = () => {
         if (!wordOfTheDay.value) {
             throw new Error('Word of the Day is not set')
         }
-        guessFeedback.value.push(
-            guessInProgress.value.split('').map((char, index): Feedback => {
-                if (char === wordOfTheDay.value.charAt(index)) return 'correct'
-                if (!wordOfTheDay.value.includes(char)) return 'incorrect'
-                return 'almost'
-            })
-        )
+
+        const newFeedback: Feedback[] = Array(WORD_SIZE).fill(null)
+        for (const [index, char] of guessInProgress.value.split('').entries()) {
+            if (char === wordOfTheDay.value.charAt(index)) {
+                newFeedback[index] = 'correct'
+                letterFeedback.value.set(char, 'correct')
+            } else if (!wordOfTheDay.value.includes(char)) {
+                newFeedback[index] = 'incorrect'
+                if (!letterFeedback.value.get(char)) letterFeedback.value.set(char, 'incorrect')
+            } else {
+                newFeedback[index] = 'almost'
+                if (letterFeedback.value.get(char) !== 'correct') {
+                    letterFeedback.value.set(char, 'almost')
+                }
+            }
+        }
+        guessFeedback.value.push(newFeedback)
     }
 
     const handleKeyPress = (key: string) => {
-        if (key === '<Enter>') {
+        if (key === 'enter') {
             handleSubmit()
-        } else if (key === '<Backspace>') {
+        } else if (key === 'backspace') {
             guessInProgress.value = guessInProgress.value.slice(0, -1)
         } else {
             guessInProgress.value = guessInProgress.value + key
@@ -76,9 +85,9 @@ export const useWordleGame = () => {
 
     const processInput = (word: string) => {
         guessInProgress.value = word
+            .replace(/[^A-Z]+/gi, '')
             .substring(0, WORD_SIZE)
             .toUpperCase()
-            .replace(/[^A-Z]+/gi, '')
     }
 
     return {

@@ -1,6 +1,4 @@
-import { mount, VueWrapper } from '@vue/test-utils'
-import WordleBoard from '../WordleBoard.vue'
-import WordleLetter from '../WordleLetter.vue'
+import { mount } from '@vue/test-utils'
 import {
     DEFEAT_MESSAGE,
     VICTORY_MESSAGE,
@@ -10,25 +8,31 @@ import {
     type Feedback
 } from '@/settings'
 import { useWordleGame } from '@/composables/useWordleGame'
-import GuessKeyboard from '../GuessKeyboard.vue'
-import GuessView from '../GuessView.vue'
+import WordleBoard from '../WordleBoard.vue'
 
+const selectors = {
+    generic: 'data-test',
+    input: '[data-test=guess-input]',
+    status: '[data-test=game-status]',
+    guess_word: '[data-test^="word-"]',
+    guess_word_w: (word: string) => `[data-test=word-${word}]`,
+    keyboard: '[data-test=wordle-keyboard]',
+    keyboard_row: '[data-test^="keyboard-row-"]',
+    keyboard_row_n: (n: string) => `[data-test=keyboard-row-${n}]`,
+    letter: '[data-test^="letter-"]',
+    letter_l: (char: string) => `[data-test=letter-${char}]`,
+    feedback: 'aria-label',
+    feedback_f: (f: string) => `[aria-label=${f}]`
+}
 describe('WordleBoard', () => {
     const wordOfTheDay = 'TESTS'
     let wrapper: ReturnType<typeof mount>
-    const {
-        guessInProgress,
-        guessesSubmitted,
-        guessFeedback,
-        isGameOver,
-        setWordOfTheDay,
-        resetGame
-    } = useWordleGame()
+    const { guessInProgress, guessesSubmitted, guessFeedback, isGameOver, resetGame } =
+        useWordleGame()
 
     beforeEach(() => {
         resetGame()
         wrapper = mount(WordleBoard, { props: { wordOfTheDay } })
-        setWordOfTheDay(wordOfTheDay)
         vi.useFakeTimers()
     })
 
@@ -39,12 +43,12 @@ describe('WordleBoard', () => {
     })
 
     async function playerTypesGuess(guess: string) {
-        const guessInput = wrapper.find('input[type=text]')
+        const guessInput = wrapper.find(selectors.input)
         await guessInput.setValue(guess)
     }
 
     async function playerTypesEnter() {
-        const guessInput = wrapper.find('input[type=text]')
+        const guessInput = wrapper.find(selectors.input)
         await guessInput.trigger('keydown.enter')
     }
 
@@ -56,7 +60,7 @@ describe('WordleBoard', () => {
     describe('End of the game messages', () => {
         test('A victory message appears when the user makes a guess that matches the word of the day', async () => {
             await playerTypesAndSubmitsGuess(wordOfTheDay)
-            expect(wrapper.text()).toContain(VICTORY_MESSAGE)
+            expect(wrapper.find(selectors.status).text()).toContain(VICTORY_MESSAGE)
             expect(isGameOver.value).toBe(true)
         })
 
@@ -78,10 +82,10 @@ describe('WordleBoard', () => {
                         await playerTypesAndSubmitsGuess('WRONG')
                     }
                     if (!shouldSeeErrorMessage) {
-                        expect(wrapper.text()).toContain(DEFEAT_MESSAGE)
+                        expect(wrapper.find(selectors.status).text()).toContain(DEFEAT_MESSAGE)
                         expect(isGameOver.value).toBe(true)
                     } else {
-                        expect(wrapper.text()).not.toContain(DEFEAT_MESSAGE)
+                        expect(wrapper.find(selectors.status).exists()).toBe(false)
                         expect(isGameOver.value).toBe(false)
                     }
                 }
@@ -90,8 +94,7 @@ describe('WordleBoard', () => {
 
         test('No end-of-game message appears when user does not make a guess', async () => {
             expect(isGameOver.value).toBe(false)
-            expect(wrapper.text()).not.toContain(VICTORY_MESSAGE)
-            expect(wrapper.text()).not.toContain(DEFEAT_MESSAGE)
+            expect(wrapper.find(selectors.status).exists()).toBe(false)
         })
     })
 
@@ -109,7 +112,6 @@ describe('WordleBoard', () => {
             async ({ wordOfTheDay }) => {
                 wrapper.unmount()
                 wrapper = mount(WordleBoard, { props: { wordOfTheDay } })
-                setWordOfTheDay(wordOfTheDay)
 
                 expect(console.warn).toHaveBeenCalled()
             }
@@ -148,8 +150,8 @@ describe('WordleBoard', () => {
                         await playerTypesAndSubmitsGuess(guesses[i])
                     }
 
-                    expect(wrapper.findAllComponents(GuessView).length).toEqual(MAX_GUESS_COUNT)
-                    expect(wrapper.findAll<HTMLInputElement>('input[type=text]').length).toEqual(
+                    expect(wrapper.findAll(selectors.guess_word).length).toEqual(MAX_GUESS_COUNT)
+                    expect(wrapper.findAll<HTMLInputElement>(selectors.input).length).toEqual(
                         numberOfInputElements
                     )
                 }
@@ -158,9 +160,10 @@ describe('WordleBoard', () => {
 
         describe('Displaying hints/feedback to the player', () => {
             const collectedFeedback = () => {
-                return wrapper.findAllComponents(WordleLetter).reduce((feedbackArr, element) => {
-                    if (element.vm.feedback) {
-                        feedbackArr.push(element.vm.feedback)
+                return wrapper.findAll(selectors.letter).reduce((feedbackArr, element) => {
+                    const attr = element.attributes(selectors.feedback)
+                    if (attr && attr !== 'nofeedback') {
+                        feedbackArr.push(attr as Feedback)
                     }
                     return feedbackArr
                 }, [] as Feedback[])
@@ -223,15 +226,16 @@ describe('WordleBoard', () => {
                 async ({ position, feedback }) => {
                     wrapper.unmount()
                     wrapper = mount(WordleBoard, { props: { wordOfTheDay } })
-                    setWordOfTheDay(wordOfTheDay)
+
                     await playerTypesAndSubmitsGuess(guess)
 
                     expect(guessFeedback.value[0][position]).toBe(feedback)
 
                     const actualFeedback = wrapper
-                        .findAllComponents(GuessView)[0]
-                        .findAllComponents(WordleLetter)
-                        .at(position)?.vm.feedback
+                        .findAll(selectors.guess_word)[0]
+                        .findAll(selectors.letter)
+                        .at(position)
+                        ?.attributes(selectors.feedback)
                     expect(actualFeedback).toBe(feedback)
                 }
             )
@@ -243,17 +247,16 @@ describe('WordleBoard', () => {
             document.body.innerHTML = '<div id="app"></div>'
             wrapper.unmount()
             wrapper = mount(WordleBoard, { props: { wordOfTheDay }, attachTo: '#app' })
-            setWordOfTheDay(wordOfTheDay)
 
-            expect(wrapper.find('input[type=text]').attributes('autofocus')).not.toBeUndefined()
-            await wrapper.find('input[type=text]').trigger('blur')
-            expect(document.activeElement).toBe(wrapper.find('input[type=text]').element)
+            expect(wrapper.find(selectors.input).attributes('autofocus')).not.toBeUndefined()
+            await wrapper.find(selectors.input).trigger('blur')
+            expect(document.activeElement).toBe(wrapper.find(selectors.input).element)
         })
 
         test('Input should not be displayed after player submits correct guess', async () => {
             await playerTypesAndSubmitsGuess(wordOfTheDay)
 
-            expect(wrapper.findAll('input[type=text]').length).toBe(0)
+            expect(wrapper.findAll(selectors.input).length).toBe(0)
         })
 
         test(`Input should not be displayed after player submits ${MAX_GUESS_COUNT} incorrect guesses`, async () => {
@@ -263,26 +266,26 @@ describe('WordleBoard', () => {
                 await playerTypesAndSubmitsGuess(guess)
             }
 
-            expect(wrapper.findAll('input[type=text]').length).toBe(0)
+            expect(wrapper.findAll(selectors.input).length).toBe(0)
         })
 
         test('Input should be cleared after player submits guess', async () => {
             await playerTypesAndSubmitsGuess('PRINT')
 
-            expect(wrapper.find<HTMLInputElement>('input[type=text]').element.value).toEqual('')
+            expect(wrapper.find<HTMLInputElement>(selectors.input).element.value).toEqual('')
             expect(guessInProgress.value).toEqual('')
         })
 
         test(`Player guesses are limited to $WORD_SIZE letters`, async () => {
             await playerTypesGuess(wordOfTheDay + 'EXTRA')
 
-            expect(wrapper.find<HTMLInputElement>('input[type=text]').element.value).toEqual(
+            expect(wrapper.find<HTMLInputElement>(selectors.input).element.value).toEqual(
                 wordOfTheDay
             )
             expect(guessInProgress.value).toEqual(wordOfTheDay)
 
             await playerTypesAndSubmitsGuess(wordOfTheDay + 'EXTRA')
-            expect(wrapper.findComponent(GuessView).vm.guess).toEqual(wordOfTheDay)
+            expect(wrapper.find(selectors.guess_word_w(wordOfTheDay)).exists()).toBe(true)
             expect(guessesSubmitted.value).toContain(wordOfTheDay)
         })
 
@@ -290,31 +293,28 @@ describe('WordleBoard', () => {
             await playerTypesAndSubmitsGuess('QWERT')
 
             expect(guessesSubmitted.value).not.toContain('QWERT')
-            expect(wrapper.text()).not.toContain(VICTORY_MESSAGE)
-            expect(wrapper.text()).not.toContain(DEFEAT_MESSAGE)
+            expect(wrapper.find(selectors.status).exists()).toBe(false)
         })
 
         test('Player guesses are not case-sensitive', async () => {
             await playerTypesAndSubmitsGuess(wordOfTheDay.toLowerCase())
 
-            expect(wrapper.findComponent(GuessView).vm.guess).toEqual(wordOfTheDay)
+            expect(wrapper.find(selectors.guess_word_w(wordOfTheDay)).exists()).toBe(true)
             expect(guessesSubmitted.value).toContain(wordOfTheDay)
-            expect(wrapper.text()).toContain(VICTORY_MESSAGE)
+            expect(wrapper.find(selectors.status).text()).toContain(VICTORY_MESSAGE)
         })
 
         test('Player guesses can only contain letters', async () => {
             await playerTypesGuess('H3R!T')
 
-            expect(wrapper.find<HTMLInputElement>('input[type=text]').element.value).toContain(
-                'HRT'
-            )
+            expect(wrapper.find<HTMLInputElement>(selectors.input).element.value).toContain('HRT')
             expect(guessInProgress.value).toEqual('HRT')
         })
 
         test('Non-alphabet characters do not render on screen when typed', async () => {
             await playerTypesGuess('333')
 
-            expect(wrapper.find<HTMLInputElement>('input[type=text]').element.value).toEqual('')
+            expect(wrapper.find<HTMLInputElement>(selectors.input).element.value).toEqual('')
             expect(guessInProgress.value).toEqual('')
         })
     })
@@ -331,54 +331,51 @@ describe('WordleBoard', () => {
             for (let i = 0; i < guess; ++i) {
                 await playerTypesAndSubmitsGuess(guesses[i])
             }
-            expect(wrapper.findComponent(GuessKeyboard).exists()).toBe(true)
+            expect(wrapper.find(selectors.keyboard).exists()).toBe(true)
         })
 
         describe.each(KEYBOARD_ROWS)(
             'Row $row should exist and contains letters',
             ({ row, letters }) => {
                 test(`Row ${row} should be visible`, async () => {
-                    expect(wrapper.find(`[data-keyboard-row="${row}"]`).exists()).toBe(true)
+                    expect(wrapper.find(selectors.keyboard_row_n(row.toString())).exists()).toBe(
+                        true
+                    )
                 })
 
-                test(`Row ${row} should contain ${letters} letters`, async () => {
+                test.each(letters)(`Row ${row} should contain letter $0`, async (letter) => {
                     expect(
                         wrapper
-                            .find(`[data-keyboard-row="${row}"]`)
-                            .findAllComponents(WordleLetter)
-                            .map((element: VueWrapper<typeof WordleLetter>) => element.vm.letter)
-                    ).toEqual(letters)
+                            .find(selectors.keyboard_row_n(row.toString()))
+                            .find(selectors.letter_l(letter))
+                            .exists()
+                    ).toBe(true)
                 })
 
                 describe.each(letters)('Clicking $0 should work', (letter) => {
-                    let letterComponent: VueWrapper
+                    let letterComponent: ReturnType<typeof wrapper.find>
 
                     beforeEach(() => {
                         letterComponent = wrapper
-                            .find(`[data-keyboard-row="${row}"]`)
-                            .findAllComponents(WordleLetter)
-                            .filter(
-                                (element: VueWrapper<typeof WordleLetter>) =>
-                                    element.vm.letter === letter
-                            )
-                            .at(0)
+                            .find(selectors.keyboard)
+                            .find(selectors.letter_l(letter))
                     })
 
                     test(`Click ${letter} should add letter to input component`, async () => {
-                        if (letter === '<Backspace>' || letter === '<Enter>') {
+                        if (letter === 'backspace' || letter === 'enter') {
                             playerTypesGuess('TESTS')
                         }
                         await letterComponent.trigger('click')
 
-                        if (letter === '<Backspace>') {
+                        if (letter === 'backspace') {
                             expect(
-                                wrapper.find<HTMLInputElement>('input[type=text]').element.value
+                                wrapper.find<HTMLInputElement>(selectors.input).element.value
                             ).toEqual('TEST')
-                        } else if (letter === '<Enter>') {
-                            expect(wrapper.text()).toContain(VICTORY_MESSAGE)
+                        } else if (letter === 'enter') {
+                            expect(wrapper.find(selectors.status).text()).toContain(VICTORY_MESSAGE)
                         } else {
                             expect(
-                                wrapper.find<HTMLInputElement>('input[type=text]').element.value
+                                wrapper.find<HTMLInputElement>(selectors.input).element.value
                             ).toEqual(letter)
                         }
                     })
@@ -444,27 +441,33 @@ describe('WordleBoard', () => {
                 }
             ]
 
-            const lettersByCriteria = (feedback: Feedback | null) => {
-                const keyboardComponent = wrapper.findComponent(GuessKeyboard)
-                return keyboardComponent.findAllComponents(WordleLetter).reduce((list, el) => {
-                    if ((!feedback && !el.vm.feedback) || el.vm.feedback === feedback) {
-                        list.push(el.vm.letter)
-                    }
-                    return list
-                }, [] as string[])
+            type FeedbackKey = 'correct' | 'almost' | 'incorrect' | 'nofeedback'
+            const feedbackTypes: FeedbackKey[] = ['correct', 'almost', 'incorrect', 'nofeedback']
+
+            const lettersByCriteria = (feedback: string) => {
+                return wrapper
+                    .find(selectors.keyboard)
+                    .findAll(selectors.feedback_f(feedback))
+                    .map((el) => {
+                        const testAttr = el.attributes(selectors.generic)
+                        const match = testAttr?.match(/^letter-(.)$/)
+                        return match?.[1] || null
+                    })
+                    .filter((l): l is string => !!l)
             }
             for (const guess of guesses) {
                 await playerTypesAndSubmitsGuess(guess.word)
-                for (const feedback of [
-                    'correct',
-                    'almost',
-                    'incorrect',
-                    null
-                ] as (Feedback | null)[]) {
-                    if (!feedback) {
-                        expect(lettersByCriteria(feedback)).toContain(guess.result.nofeedback)
+                for (const feedback of feedbackTypes) {
+                    if (feedback !== 'nofeedback') {
+                        expect(
+                            lettersByCriteria(feedback).sort(),
+                            `Test with word ${guess.word} failed because ${feedback} letters don't match`
+                        ).toEqual(guess.result[feedback])
                     } else {
-                        expect(lettersByCriteria(feedback)).toEqual(guess.result[feedback])
+                        expect(
+                            lettersByCriteria(feedback),
+                            `Test with word ${guess.word} failed because ${feedback} letters don't match`
+                        ).toEqual(expect.arrayContaining(guess.result[feedback]))
                     }
                 }
             }

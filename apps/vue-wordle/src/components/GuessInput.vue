@@ -16,7 +16,7 @@ const onInput = (event: Event): void => {
     <div class="flex" :class="{ 'animate-shake': invalidWordError }">
         <input type="text" v-model="guessInProgress" autofocus @keydown.enter="handleSubmit"
             @blur="({ target }) => (target as HTMLInputElement).focus()" :maxlength="WORD_SIZE" @input="onInput"
-            class="opacity-0 cursor-default w-0" />
+            class="opacity-0 cursor-default w-0" data-test="guess-input" />
         <guess-view :guess="guessInProgress" />
     </div>
 </template>

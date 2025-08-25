@@ -39,7 +39,8 @@ const triggerEvent = () => {
 
 <template>
     <div class="flex flex-col items-center justify-center border-1 rounded  text-3xl min-w-10 min-h-10"
-        :class="[styleClasses, { 'cursor-pointer hover:animate-bounce': enableClick }]" @click.stop="triggerEvent">
+        :class="[styleClasses, { 'cursor-pointer hover:animate-bounce': enableClick }]" @click.stop="triggerEvent"
+        :data-test="`letter-${letter}`" :aria-label="feedback ?? 'nofeedback'">
         {{ letter }}
     </div>
 </template>

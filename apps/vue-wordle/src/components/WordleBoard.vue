@@ -29,7 +29,7 @@ setWordOfTheDay(props.wordOfTheDay)
             <guess-view />
         </div>
         <Transition name="slide-down">
-            <p v-if="isGameOver" class="mt-16 text-amber-900 text-4xl font-bold text-center ">
+            <p v-if="isGameOver" class="mt-16 text-amber-900 text-4xl font-bold text-center " data-test="game-status">
                 {{ guessesSubmitted.includes(wordOfTheDay) ? VICTORY_MESSAGE : DEFEAT_MESSAGE }}
             </p>
         </Transition>

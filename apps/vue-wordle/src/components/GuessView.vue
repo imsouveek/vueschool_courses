@@ -36,7 +36,7 @@ onMounted(async () => {
 </script>
 
 <template>
-    <div class="grid grid-cols-5 w-fit mx-auto gap-2 mb-2">
+    <div class="grid grid-cols-5 w-fit mx-auto gap-2 mb-2" :data-test="`word-${isPastGuess ? guess : ''}`">
         <wordle-letter v-for="i in WORD_SIZE" :key="i" :letter="guess.charAt(i - 1)" :feedback="guessFeedback?.[i - 1]"
             :hideFeedback="flip[i - 1] < flipStatus.HalfDone"
             :class="[{ 'animate-pop': i === inputPosition && !isPastGuess },

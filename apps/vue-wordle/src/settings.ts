@@ -5,11 +5,11 @@ export const MAX_GUESS_COUNT = 6
 export const KEYBOARD_ROWS = [
     {
         row: 1,
-        letters: ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '<Backspace>']
+        letters: ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', 'backspace']
     },
     {
         row: 2,
-        letters: ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', '<Enter>']
+        letters: ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'enter']
     },
     {
         row: 3,
