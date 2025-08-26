@@ -9,6 +9,7 @@ import {
 } from '@/settings'
 import { useWordleGame } from '@/composables/useWordleGame'
 import WordleBoard from '../WordleBoard.vue'
+import { nextTick } from 'vue'
 
 const selectors = {
     generic: 'data-test',
@@ -49,7 +50,10 @@ describe('WordleBoard', () => {
     async function playerTypesEnter() {
         const guessInput = wrapper.find(selectors.input)
         await guessInput.trigger('keydown.enter')
-        vi.runAllTimers()
+        for (let i = 0; i < WORD_SIZE; ++i) {
+            vi.runAllTimers()
+            await nextTick()
+        }
     }
 
     async function playerTypesAndSubmitsGuess(guess: string) {
