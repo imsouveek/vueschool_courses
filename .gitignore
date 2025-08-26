@@ -7,31 +7,35 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
+# Dependency directories
+node_modules/
+.pnpm-store/
+
+# System files
 .DS_Store
-dist
-dist-ssr
-coverage
-*.local
-.fleet
 .idea
+.fleet
 
-/cypress/videos/
-/cypress/screenshots/
-
+# Build outputs
+dist/
+dist-ssr/
+.output/
+.data/
+.nuxt/
+.nitro/
+.cache/
+.turbo/
+coverage/
 *.tsbuildinfo
-.pnpm-store
-.turbo
 
-# Nuxt dev/build outputs
-.output
-.data
-.nuxt
-.nitro
-.cache
-dist
+# Test artifacts (Playwright)
+playwright-report/
+blob-report/
+playwright/.cache/
+test-results/
 
-# Local env files
+# Environment files
 .env
 .env.*
 !.env.example
+*.local
