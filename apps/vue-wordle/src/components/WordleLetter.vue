@@ -2,6 +2,7 @@
 import { useWordleGame } from '@/composables/useWordleGame';
 import type { Feedback } from '@/settings';
 import { ref, watchEffect } from 'vue';
+import { Icon } from '@iconify/vue'
 
 const props = defineProps<{
     letter: string,
@@ -24,6 +25,9 @@ watchEffect(() => {
         case 'incorrect':
             newStyles = 'border-slate-600 bg-slate-600 text-slate-100'
             break
+        default:
+            newStyles = 'border-slate-900 bg-slate-100 text-slate-900'
+            break
     }
     setTimeout(() => {
         styleClasses.value = newStyles
@@ -45,6 +49,12 @@ const triggerEvent = () => {
         { 'cursor-pointer hover:scale-125 transition-transform duration-300': enableClick },
         { 'animate-[simple-flip_.6s_ease-in-out]': feedback }
     ]" @click.stop="triggerEvent" :data-test="`letter-${letter}`" :aria-label="feedback ?? 'nofeedback'">
-        {{ letter }}
+        <span v-if="letter === 'backspace'">
+            <Icon icon="material-symbols:backspace" width="36" height="36" />
+        </span>
+        <span v-else-if="letter === 'enter'">
+            <Icon icon="ant-design:enter-outlined" width="36" height="36" />
+        </span>
+        <span v-else>{{ letter }}</span>
     </div>
 </template>

@@ -33,7 +33,7 @@ setWordOfTheDay(props.wordOfTheDay)
                 {{ guessesSubmitted.includes(wordOfTheDay) ? VICTORY_MESSAGE : DEFEAT_MESSAGE }}
             </p>
         </Transition>
-        <guess-keyboard />
+        <guess-keyboard :class="{ 'mt-42': !isGameOver }" />
     </div>
 </template>
 
