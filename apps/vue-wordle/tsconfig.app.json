@@ -1,7 +1,7 @@
 {
     "extends": "tsconfig/vue.json",
     "include": ["env.d.ts", "src/**/*", "src/**/*.vue", "typed-router.d.ts"],
-    "exclude": ["src/**/__tests__/*"],
+    "exclude": ["src/**/__tests__/*", "test-results/**", "playwright-report/**", ".playwright"],
     "compilerOptions": {
         "baseUrl": ".",
         "paths": {

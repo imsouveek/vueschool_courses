@@ -49,7 +49,7 @@ describe('WordleBoard', () => {
 
     async function playerTypesEnter() {
         const guessInput = wrapper.find(selectors.input)
-        await guessInput.trigger('keydown.enter')
+        await guessInput.trigger('keydown.Enter')
         for (let i = 0; i < WORD_SIZE; ++i) {
             vi.runAllTimers()
             await nextTick()
@@ -303,6 +303,51 @@ describe('WordleBoard', () => {
             await playerTypesGuess('333')
 
             expect(wrapper.find<HTMLInputElement>(selectors.input).element.value).toEqual('')
+        })
+
+        test("Arrow keys don't work", async () => {
+            await playerTypesGuess('TEST')
+            wrapper.find<HTMLInputElement>(selectors.input).trigger('keydown', { key: 'ArrowLeft' })
+            wrapper.find(selectors.keyboard).find(selectors.letter_l('S')).trigger('click')
+            await playerTypesEnter()
+
+            expect(wrapper.find(selectors.status).text()).toContain(VICTORY_MESSAGE)
+        })
+
+        test('Cut feature does not work on input', async () => {
+            const event = new Event('cut', { bubbles: true, cancelable: true })
+            Object.defineProperty(event, 'preventDefault', {
+                value: vi.fn(),
+                writable: true
+            })
+
+            wrapper.find<HTMLInputElement>(selectors.input).element.dispatchEvent(event)
+
+            expect(event.preventDefault).toHaveBeenCalled()
+        })
+
+        test('Copy feature does not work on input', async () => {
+            const event = new Event('copy', { bubbles: true, cancelable: true })
+            Object.defineProperty(event, 'preventDefault', {
+                value: vi.fn(),
+                writable: true
+            })
+
+            wrapper.find<HTMLInputElement>(selectors.input).element.dispatchEvent(event)
+
+            expect(event.preventDefault).toHaveBeenCalled()
+        })
+
+        test('Paste feature does not work on input', async () => {
+            const event = new Event('paste', { bubbles: true, cancelable: true })
+            Object.defineProperty(event, 'preventDefault', {
+                value: vi.fn(),
+                writable: true
+            })
+
+            wrapper.find<HTMLInputElement>(selectors.input).element.dispatchEvent(event)
+
+            expect(event.preventDefault).toHaveBeenCalled()
         })
     })
 

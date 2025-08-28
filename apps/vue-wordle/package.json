@@ -11,6 +11,8 @@
         "build": "run-p type-check \"build-only {@}\" --",
         "preview": "vite preview",
         "test": "vitest",
+        "test:e2e": "playwright test",
+        "test:e2e:report": "playwright show-report --host 0.0.0.0 --port 3010",
         "build-only": "vite build",
         "type-check": "vue-tsc --build",
         "lint": "eslint . --fix"
@@ -22,6 +24,7 @@
     },
     "devDependencies": {
         "@iconify/vue": "^5.0.0",
+        "@playwright/test": "^1.55.0",
         "@tsconfig/node22": "^22.0.2",
         "@types/jsdom": "^21.1.7",
         "@types/node": "^22.16.5",

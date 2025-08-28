@@ -18,6 +18,11 @@ export default defineConfig({
             }
         })
     ],
+    server: {
+        watch: {
+            ignored: ['**/playwright-report/**', '**/test-results/**', '**/.playwright/**']
+        }
+    },
     resolve: {
         alias: {
             '@': fileURLToPath(new URL('./src', import.meta.url))
