@@ -3,7 +3,6 @@ import GuessInput from '@/components/GuessInput.vue'
 import GuessView from '@/components/GuessView.vue'
 import { DEFEAT_MESSAGE, VICTORY_MESSAGE } from '@/settings'
 import englishWords from '@/englishWordsWith5Letters.json'
-import { Transition } from 'vue'
 import GuessKeyboard from './GuessKeyboard.vue'
 import { useWordleGame } from '@/composables/useWordleGame'
 
@@ -15,7 +14,8 @@ const props = defineProps({
     }
 })
 
-const { guessesSubmitted, isGameOver, pendingAttempts, guessFeedback, setWordOfTheDay } = useWordleGame()
+const { guessesSubmitted, isGameOver, pendingAttempts, guessFeedback, setWordOfTheDay } =
+    useWordleGame()
 setWordOfTheDay(props.wordOfTheDay)
 </script>
 
@@ -25,11 +25,11 @@ setWordOfTheDay(props.wordOfTheDay)
             <guess-view :guess="guess" :guess-feedback="guessFeedback[index]" />
         </div>
         <guess-input v-if="!isGameOver" />
-        <div v-for="(index) in pendingAttempts" :key="`${index}`">
+        <div v-for="index in pendingAttempts" :key="`${index}`">
             <guess-view />
         </div>
         <Transition name="slide-down">
-            <p v-if="isGameOver" class="mt-16 text-amber-900 text-4xl font-bold text-center " data-test="game-status">
+            <p v-if="isGameOver" class="mt-16 text-amber-900 text-4xl font-bold text-center" data-test="game-status">
                 {{ guessesSubmitted.includes(wordOfTheDay) ? VICTORY_MESSAGE : DEFEAT_MESSAGE }}
             </p>
         </Transition>

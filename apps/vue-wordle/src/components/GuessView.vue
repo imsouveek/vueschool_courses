@@ -1,14 +1,17 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
-import { WORD_SIZE, type Feedback } from '@/settings';
-import WordleLetter from './WordleLetter.vue';
+import { WORD_SIZE, type Feedback } from '@/settings'
+import WordleLetter from './WordleLetter.vue'
 
-const props = withDefaults(defineProps<{
-    guess?: string,
-    guessFeedback?: ReadonlyArray<Feedback>
-}>(), {
-    guess: ''
-})
+const props = withDefaults(
+    defineProps<{
+        guess?: string
+        guessFeedback?: ReadonlyArray<Feedback>
+    }>(),
+    {
+        guess: ''
+    }
+)
 
 const inputPosition = computed(() => props.guess.length)
 const flip = ref<boolean[]>(Array(WORD_SIZE))
@@ -27,9 +30,16 @@ onMounted(async () => {
 </script>
 
 <template>
-    <div class="grid grid-cols-5 w-fit mx-auto gap-2 mb-2" :data-test="`word-${isPastGuess ? guess : ''}`">
-        <wordle-letter v-for="i in WORD_SIZE" :key="i" :letter="guess.charAt(i - 1)"
+    <div
+        class="grid grid-cols-5 w-fit mx-auto gap-2 mb-2"
+        :data-test="`word-${isPastGuess ? guess : ''}`"
+    >
+        <wordle-letter
+            v-for="i in WORD_SIZE"
+            :key="i"
+            :letter="guess.charAt(i - 1)"
             :feedback="flip[i - 1] ? guessFeedback?.[i - 1] : null"
-            :class="[{ 'animate-pop': i === inputPosition && !isPastGuess }]" />
+            :class="[{ 'animate-pop': i === inputPosition && !isPastGuess }]"
+        />
     </div>
 </template>

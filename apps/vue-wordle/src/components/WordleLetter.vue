@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { useWordleGame } from '@/composables/useWordleGame';
-import type { Feedback } from '@/settings';
-import { ref, watchEffect } from 'vue';
+import { useWordleGame } from '@/composables/useWordleGame'
+import type { Feedback } from '@/settings'
+import { ref, watchEffect } from 'vue'
 import { Icon } from '@iconify/vue'
 
 const props = defineProps<{
-    letter: string,
-    feedback?: Feedback | null,
-    enableClick?: boolean,
+    letter: string
+    feedback?: Feedback | null
+    enableClick?: boolean
 }>()
 
 const { handleKeyPress } = useWordleGame()
@@ -40,15 +40,20 @@ const triggerEvent = () => {
         handleKeyPress(props.letter)
     }
 }
-
 </script>
 
 <template>
-    <div class="flex flex-col items-center justify-center border-1 rounded  text-3xl min-w-10 min-h-10" :class="[
-        styleClasses,
-        { 'cursor-pointer hover:scale-125 transition-transform duration-300': enableClick },
-        { 'animate-[simple-flip_.6s_ease-in-out]': feedback }
-    ]" @click.stop="triggerEvent" :data-test="`letter-${letter}`" :aria-label="feedback ?? 'nofeedback'">
+    <div
+        class="flex flex-col items-center justify-center border-1 rounded text-3xl min-w-10 min-h-10"
+        :class="[
+            styleClasses,
+            { 'cursor-pointer hover:scale-125 transition-transform duration-300': enableClick },
+            { 'animate-[simple-flip_.6s_ease-in-out]': feedback }
+        ]"
+        @click.stop="triggerEvent"
+        :data-test="`letter-${letter}`"
+        :aria-label="feedback ?? 'nofeedback'"
+    >
         <span v-if="letter === 'backspace'">
             <Icon icon="material-symbols:backspace" width="36" height="36" />
         </span>
