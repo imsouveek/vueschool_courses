@@ -1,0 +1,17 @@
+{
+    "Vue 3 SFC": {
+        "prefix": "vuesfc",
+        "body": [
+            "<script setup lang=\"${1:ts}\">",
+            "</script>",
+            "",
+            "<template>",
+            "\t<${2:div}>",
+            "\t\t$0",
+            "\t</$2>",
+            "</template>",
+            ""
+        ],
+        "description": "New Vue Single File Component"
+    }
+}
